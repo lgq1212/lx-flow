@@ -1,32 +1,53 @@
-import { createPinia } from 'pinia'
+import Vue from 'vue'
+import App from './App.vue'
+import router from "./router";
+import store from './store'
+require('@/utils/Injection')
 
-import router from './router'
-import { createApp } from 'vue'
-import App from './App.vue';
+/*import tinymce from 'tinymce'
+Vue.prototype.$tinymce = tinymce*/
 
-//wflow样式文件
-import './assets/theme.css'
-import './assets/global.css'
-import {Icon} from '@iconify/vue'
-// 额外引入图标库
-import * as ElIcons from '@element-plus/icons-vue'
-import ElementPlus from "element-plus";
-import 'element-plus/dist/index.css'
+import ElementUI from "element-ui";
+import 'element-ui/lib/theme-chalk/display.css';
+import "element-ui/lib/theme-chalk/index.css";
+import 'vant/lib/index.css';
+import 'vant/lib/index.less';
 
-// VForm3
-import VForm3 from '@/../lib/vform/designer.umd.js';
-import '@/../lib/vform/designer.style.css';
+import '@/assets/theme/index.css'
+import "@/assets/global.css";
+import "@/assets/iconfont/iconfont.css"
 
-const app = createApp(App);
+import Ellipsis from '@/components/common/Ellipsis'
+import WDialog from '@/components/common/WDialog'
+import Tip from '@/components/common/Tip'
+import Avatar from '@/components/common/Avatar'
+import VueAMap from "vue-amap";
+Vue.use(VueAMap)
+Vue.use(ElementUI);
+Vue.use(Ellipsis);
+Vue.use(WDialog);
+Vue.use(Tip);
+Vue.use(Avatar);
 
-//注册element图标
-for (const [key, component] of Object.entries(ElIcons)) {
-  app.component(key, component)
-}
+Vue.config.productionTip = false
 
-app.use(ElementPlus);
-app.use(VForm3); //全局注册VForm3，同时注册了v-form-designer、v-form-render等组件
-app.component('iconify', Icon)
-app.use(createPinia())
-app.use(router)
-app.mount('#app');
+/*高德地图组件初始化*/
+VueAMap.initAMapApiLoader({
+  key: 'ebb9f6fb9beaec43fddcb22ab7406386',
+  uiVersion: '1.0',
+  plugin: [
+    'AMap.Autocomplete',
+    'AMap.ElasticMarker',
+    'AMap.PlaceSearch',
+    "AMap.MapType",
+    "AMap.Geocoder",
+    'AMap.Geolocation'
+  ],
+  v: '1.4.4'
+});
+
+new Vue({
+  router,
+  store,
+  render: h => h(App),
+}).$mount('#app')

@@ -1,51 +1,39 @@
-/****覆盖element默认样式******/
-.w-drawer .el-drawer__header {
-    padding: 10px 15px !important;
-    margin-bottom: 0 !important;
+body{
+    margin: 0;
+    padding: 0;
 }
 
-.w-drawer .el-drawer__body {
-    padding: 0 15px 10px 15px;
-}
-/******************************/
-
-/*去除表单项的label名称*/
-.w-form-cp-nlb > .el-form-item__label {
-    display: none;
+/*路由切换动画*/
+.router-fade-enter-active {
+    transition: all 0.3s cubic-bezier(0.6, 0.5, 0.3, 0.1);
 }
 
-/*表单组件选中的样式*/
-.w-form-cp-active {
-    border: 1px dashed var(--el-color-primary) !important;
+.router-fade-leave-active {
+    transition: all 0.3s cubic-bezier(0.5, 0.5, 0.5, 0.5);
 }
 
-.w-form-cp-active > .w-form-component:first-of-type {
-    display: flex !important;
+.router-fade-enter {
+    transform: translateX(0px);
+    opacity: 0;
 }
 
-.w-form-d-item {
-    position: relative;
-    margin: 2px;
-    /*padding: 5px;*/
-    border: 1px dashed white;
+.router-fade-leave-to {
+    transform: translateX(50px);
+    opacity: 0;
 }
 
-.w-form-d-item:hover {
-    border: 1px dashed #8d8d8d;
+.fl {
+    float: left;
 }
-
-* :focus {
-    outline: none;
+.fr {
+    float: right;
 }
-
-.w-process-icon {
-    padding: 8px;
-    font-size: 20px;
-    border-radius: 10px;
+.tl{
+    text-align: left;
 }
-
-.w-row-text{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.tr{
+    text-align: right;
+}
+.el-alert__content {
+    line-height: normal;
 }

@@ -10,10 +10,17 @@ export function getOrgTree(param) {
   })
 }
 
+export function getUserSign() {
+  return request({
+    url: 'oa/org/user/sign',
+    method: 'get'
+  })
+}
+
 // 查询系统角色
 export function getRole() {
   return request({
-    url: 'oa/org/tree',
+    url: 'oa/org/role',
     method: 'get'
   })
 }
@@ -35,6 +42,32 @@ export function getUserDepts(userId) {
   })
 }
 
+// 获取审批代理人
+export function getUserAgent() {
+  return request({
+    url: `oa/org/user/agent`,
+    method: 'get'
+  })
+}
+
+// 获取审批代理人
+export function setUserAgent(params) {
+  return request({
+    url: `oa/org/user/agent`,
+    method: 'put',
+    data: params
+  })
+}
+
+// 获取审批代理人
+export function cancelUserAgent() {
+  return request({
+    url: `oa/org/user/agent`,
+    method: 'delete'
+  })
+}
+
 export default {
-  getOrgTree, getUserByName, getRole, getUserDepts
+  getOrgTree, getUserByName, getRole, getUserSign,
+  getUserDepts, getUserAgent, setUserAgent, cancelUserAgent
 }

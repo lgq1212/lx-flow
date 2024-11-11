@@ -1,8 +1,12 @@
+import Vue from "vue";
 import axios from "axios";
-import {ElMessageBox, ElMessage} from "element-plus";
+import { MessageBox, Message } from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+Vue.prototype.$axios = axios;
+const baseURL = Vue.prototype.BASE_URL;
 
 const service = axios.create({
-	baseURL: import.meta.env.VITE_APP_BASE_API,
+	baseURL: baseURL,
 	timeout: 50000
 });
 
@@ -28,10 +32,10 @@ service.interceptors.response.use(
 	err => {
 		switch (err.response.status) {
 			case 401:
-				ElMessageBox.alert("登陆失效，请点击右上角头像重新切换人员");
+				MessageBox.alert("登陆失效，请点击右上角头像重新切换人员");
 				break;
 			case 403:
-				ElMessage.warning("抱歉，您无权访问！")
+				Message.warning("抱歉，您无权访问！")
 				break;
 			case 500:
 				break;
@@ -45,4 +49,41 @@ service.interceptors.response.use(
 		return Promise.reject(err);
 	}
 );
+
+export function syncRequest(config){
+	let ajax = new XMLHttpRequest();
+	ajax.withCredentials = true
+	//ajax.responseType = 'json'
+	ajax.open(config.method, baseURL + config.url, false);
+	ajax.onload = function (e) {
+		if (ajax.readyState === 4) {
+			if (ajax.status === 200 && config.success){
+				config.success(ajax.responseText)
+			}else if (config.fail){
+				config.fail(ajax.responseText)
+			}
+		}
+	};
+	ajax.onerror = function (e) {
+		if (config.fail){
+			config.fail(ajax.responseText)
+		}
+	}
+	if (config.data){
+		if (config.type === 'json'){
+			ajax.setRequestHeader("Content-type","application/json");
+			ajax.send(JSON.stringify(config.data))
+		}else {
+			ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			let form = new FormData()
+			for (const key in config.data) {
+				form.set(key, config.data[key])
+			}
+			ajax.send(form)
+		}
+	}else {
+		ajax.send(null)
+	}
+}
+
 export default service;
